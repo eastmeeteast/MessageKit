@@ -135,15 +135,13 @@ open class MessageContentCell: MessageCollectionViewCell {
         messageContainerView.backgroundColor = messageColor
         messageContainerView.style = messageStyle
 
-        DispatchQueue.main.async { [weak self] in
-            let topCellLabelText = dataSource.cellTopLabelAttributedText(for: message, at: indexPath)
-            let topMessageLabelText = dataSource.messageTopLabelAttributedText(for: message, at: indexPath)
-            let bottomText = dataSource.messageBottomLabelAttributedText(for: message, at: indexPath)
+        let topCellLabelText = dataSource.cellTopLabelAttributedText(for: message, at: indexPath)
+        let topMessageLabelText = dataSource.messageTopLabelAttributedText(for: message, at: indexPath)
+        let bottomText = dataSource.messageBottomLabelAttributedText(for: message, at: indexPath)
 
-            self?.cellTopLabel.attributedText = topCellLabelText
-            self?.messageTopLabel.attributedText = topMessageLabelText
-            self?.messageBottomLabel.attributedText = bottomText
-        }
+        cellTopLabel.attributedText = topCellLabelText
+        messageTopLabel.attributedText = topMessageLabelText
+        messageBottomLabel.attributedText = bottomText
     }
 
     /// Handle tap gesture on contentView and its subviews.
