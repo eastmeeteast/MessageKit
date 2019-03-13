@@ -92,6 +92,7 @@ open class MessageContentCell: MessageCollectionViewCell {
         cellTopLabel.text = nil
         messageTopLabel.text = nil
         messageBottomLabel.text = nil
+        avatarView.image = nil
     }
 
     // MARK: - Configuration
@@ -134,13 +135,15 @@ open class MessageContentCell: MessageCollectionViewCell {
         messageContainerView.backgroundColor = messageColor
         messageContainerView.style = messageStyle
 
-        let topCellLabelText = dataSource.cellTopLabelAttributedText(for: message, at: indexPath)
-        let topMessageLabelText = dataSource.messageTopLabelAttributedText(for: message, at: indexPath)
-        let bottomText = dataSource.messageBottomLabelAttributedText(for: message, at: indexPath)
+        DispatchQueue.main.async { [weak self] in
+            let topCellLabelText = self?.dataSource.cellTopLabelAttributedText(for: message, at: indexPath)
+            let topMessageLabelText = self?.dataSource.messageTopLabelAttributedText(for: message, at: indexPath)
+            let bottomText = self?.dataSource.messageBottomLabelAttributedText(for: message, at: indexPath)
 
-        cellTopLabel.attributedText = topCellLabelText
-        messageTopLabel.attributedText = topMessageLabelText
-        messageBottomLabel.attributedText = bottomText
+            self?.cellTopLabel.attributedText = topCellLabelText
+            self?.messageTopLabel.attributedText = topMessageLabelText
+            self?.messageBottomLabel.attributedText = bottomText
+        }
     }
 
     /// Handle tap gesture on contentView and its subviews.

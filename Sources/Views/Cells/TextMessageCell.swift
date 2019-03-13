@@ -74,18 +74,24 @@ open class TextMessageCell: MessageContentCell {
             messageLabel.enabledDetectors = enabledDetectors
             for detector in enabledDetectors {
                 let attributes = displayDelegate.detectorAttributes(for: detector, and: message, at: indexPath)
-                messageLabel.setAttributes(attributes, detector: detector)
+                DispatchQueue.main.async { [weak self] in
+                    self?.messageLabel.setAttributes(attributes, detector: detector)
+                }
             }
             switch message.kind {
             case .text(let text), .emoji(let text):
                 let textColor = displayDelegate.textColor(for: message, at: indexPath, in: messagesCollectionView)
-                messageLabel.text = text
-                messageLabel.textColor = textColor
-                if let font = messageLabel.messageLabelFont {
-                    messageLabel.font = font
+                DispatchQueue.main.async { [weak self] in
+                    self?.messageLabel.text = text
+                    self?.messageLabel.textColor = textColor
+                    if let font = self?.messageLabel.messageLabelFont {
+                        self?.messageLabel.font = font
+                    }
                 }
             case .attributedText(let text):
-                messageLabel.attributedText = text
+                DispatchQueue.main.async { [weak self] in
+                    self?.messageLabel.attributedText = text
+                }
             default:
                 break
             }
